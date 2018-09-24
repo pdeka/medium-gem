@@ -1,4 +1,4 @@
-require "retriever/user_retriever"
+require "retriever/post_retriever"
 require "parser/url_parser"
 
 class MediumScrapper
@@ -6,5 +6,9 @@ class MediumScrapper
 
   def load_user(username)
     UserRetriever.new(UrlParser).load(username)
+  end
+
+  def load_posts(username)
+    PostRetriever.new(UrlParser).load(username)
   end
 end

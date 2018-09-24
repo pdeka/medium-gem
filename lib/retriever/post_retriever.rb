@@ -16,6 +16,27 @@ class PostRetriever
     )
   end
 
+  def load(user_id)
+    posts = parse_posts(user_id)
+
+    returnPosts = []
+    posts.each do |post|
+
+      returnPosts.push Post.new(
+        post[1]['title'],
+        post[1]['content']['subtitle'],
+        "",
+        post[1]['uniqueSlug'],
+        post[1]['id'],
+        'thumbnail',
+        'Prabin Deka'
+      )
+    end
+
+    returnPosts
+
+  end
+
   def normalize_content(paragraphs_raw)
     body = ''
     paragraphs_raw[1..-1].each do |paragraph|
@@ -26,5 +47,10 @@ class PostRetriever
 
   def parse_url(user_id, post_id)
     @parser.new("https://www.medium.com/@#{user_id}/#{post_id}?format=json").parse['value']
+  end
+
+  def parse_posts(user_id)
+    thisUrl = "https://www.medium.com/@#{user_id}/latest?format=json&limit=1000"
+    @parser.new(thisUrl).parse['references']['Post']
   end
 end
