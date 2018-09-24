@@ -1,4 +1,3 @@
-require 'active_support/all'
 class Post
   attr_reader :title, :subtitle, :content, :url, :guid, :thumbnail, :author
 

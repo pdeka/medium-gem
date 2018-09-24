@@ -1,6 +1,5 @@
 require "retriever/post_retriever"
 require "parser/url_parser"
-require 'active_support/all'
 
 class MediumScrapper
   attr_reader :user
