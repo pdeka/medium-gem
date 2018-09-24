@@ -10,4 +10,22 @@ class Post
     @thumbnail = thumbnail
     @author = author
   end
+
+
+    def as_json(options={})
+        {
+            title: @title,
+            subtitle: @subtitle,
+            content: @content,
+            url: @url,
+            guid: @guid,
+            thumbnail: @thumbnail,
+            author: @author
+        }
+    end
+
+    def to_json(*options)
+        as_json(*options).to_json(*options)
+    end
+
 end

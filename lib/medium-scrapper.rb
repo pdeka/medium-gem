@@ -1,6 +1,7 @@
 require "retriever/post_retriever"
 require "parser/url_parser"
 
+
 class MediumScrapper
   attr_reader :user
 
@@ -9,8 +10,6 @@ class MediumScrapper
   end
 
   def load_posts(username)
-    posts = PostRetriever.new(UrlParser).load(username)
-    puts posts.to_json
-    posts.to_json
+    PostRetriever.new(UrlParser).load(username).to_json
   end
 end
