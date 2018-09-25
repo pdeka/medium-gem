@@ -17,19 +17,25 @@ class PostRetriever
   end
 
   def load(user_id)
-    posts = parse_posts(user_id)
+    content = parse_content(user_id)
+
+    posts = content.parse['references']['Post']
+    user = content.parse['user']['name']
+    user_name = content.parse['user']['username']
 
     returnPosts = []
     posts.each do |post|
-
       returnPosts.push Post.new(
         post[1]['title'],
         post[1]['content']['subtitle'],
         "",
         post[1]['uniqueSlug'],
         post[1]['id'],
-        'thumbnail',
-        'Prabin Deka'
+        post[1]['virtuals']['previewImage']['imageId'],
+        user,
+        user_name,
+        "",
+        post[1]['updatedAt']
       )
     end
 
@@ -45,12 +51,14 @@ class PostRetriever
     body
   end
 
+  private
+
   def parse_url(user_id, post_id)
     @parser.new("https://www.medium.com/@#{user_id}/#{post_id}?format=json").parse['value']
   end
 
-  def parse_posts(user_id)
+  def parse_content(user_id)
     thisUrl = "https://www.medium.com/@#{user_id}/latest?format=json&limit=1000"
-    @parser.new(thisUrl).parse['references']['Post']
+    @parser.new(thisUrl)
   end
 end

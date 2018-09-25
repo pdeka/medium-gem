@@ -1,26 +1,32 @@
 class Post
-  attr_reader :title, :subtitle, :content, :url, :guid, :thumbnail, :author
+  attr_reader :title, :description, :content, :link, :guid, :thumbnail, :author, :tags, :pubDate
 
-  def initialize(title, subtitle, content, url, guid, thumbnail, author)
+  CDN_URL = 'https://cdn-images-1.medium.com/max/1024'
+
+  def initialize(title, description, content, unique_slug, guid, image_name, author, user_name, tags, pubDate)
     @title = title
-    @subtitle = subtitle
+    @description = description
     @content = content
-    @url = url
+    @link = "https://medium.com/@#{user_name}/#{unique_slug}"
     @guid = guid
-    @thumbnail = thumbnail
+    @thumbnail = "#{CDN_URL}/#{image_name}"
     @author = author
+    @tags = ""
+    @pubDate = Time.at(pubDate/1000)
   end
 
 
     def as_json(options={})
         {
             title: @title,
-            subtitle: @subtitle,
+            description: @description,
             content: @content,
-            url: @url,
+            link: @link,
             guid: @guid,
             thumbnail: @thumbnail,
-            author: @author
+            author: @author,
+            tags: @tags,
+            pubDate: @pubDate
         }
     end
 
